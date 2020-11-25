@@ -1,8 +1,9 @@
 import numpy as np
 
 count = 0  # счетчик попыток
-number = np.random.randint(1, 101)  # загадали число
-print("Загадано число от 1 до 100")
+interval = int(input('До какого числа можно загадать?: '))  # до какого числа можно загадывать число
+number = np.random.randint(1, interval + 1)  # загадали число
+print(f"Загадано число от 1 до {interval}")
 
 while True:  # бесконечный цикл
     predict = int(input())  # предполагаемое число
@@ -39,3 +40,29 @@ def score_game(game_core):
     print(f"Ваш алгоритм угадывает число в среднем за {score} попыток")
     return (score)
 
+
+ def game_core_v2(number):
+    '''Сначала устанавливаем любое random число, а потом уменьшаем или увеличиваем его в зависимости от того, больше оно или меньше нужного.
+       Функция принимает загаданное число и возвращает число попыток'''
+    count = 1
+    predict = np.random.randint(1,101)
+    while number != predict:
+        count+=1
+        if number > predict:
+            predict += 1
+        elif number < predict:
+            predict -= 1
+    return(count) # выход из цикла, если угадали
+
+def game_core_v3(number):
+    '''Сначала устанавливаем любое random число, а потом уменьшаем или увеличиваем его в зависимости от того, больше оно или меньше нужного.
+       Функция принимает загаданное число и возвращает число попыток'''
+    count = 1
+    predict = np.random.randint(1,interval + 1)
+    while number != predict:
+        count += 1
+        if number > predict:
+            predict += 1
+        elif number < predict:
+            predict -= 1
+    return(count) # выход из цикла, если угадали
