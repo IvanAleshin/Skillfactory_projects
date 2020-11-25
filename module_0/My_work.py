@@ -1,43 +1,29 @@
 import numpy as np
 from math import ceil
 
-count = 0  # счетчик попыток
-max_chislo = int(input('До какого числа можно загадать компьютеру?: '))
-min_chislo = 1  # какое минимальное число мог загадать компьютер
-number = np.random.randint(1, max_chislo + 1)  # компьютер загадывает число
-print(f"Загадано число в интервале от 1 до {max_chislo}")
+max_number = int(input('До какого числа можно загадать компьютеру?: '))  # нужно для определения возможного инетервала
+number = np.random.randint(1, max_number + 1)  # компьютер загадывает число
+print(f"Загадано число в интервале от 1 до {max_number}")
 
-chislo = ceil((max_chislo + 1 - min_chislo) / 2)  # выбираем число посередине интервала
-print(chislo)
 
-while chislo != number:
-    count += 1
-    if chislo > number:
-        max_chislo = chislo
-        chislo = ceil((max_chislo - min_chislo) / 2) + min_chislo
-    else:
-        min_chislo = chislo
-        chislo = ceil((max_chislo - min_chislo) / 2) + min_chislo
-
-print(f'Число {number} угадано с {count} попытки')
-
-"""def game_core_v3(number):
-    '''Сначала устанавливаем любое random число, а потом уменьшаем или увеличиваем его в зависимости от того, больше оно
-     или меньше нужного. Функция принимает загаданное число и возвращает число попыток'''
-    count = 0
-    global min_chislo
-    global max_chislo
-    global interval
-    predict = ceil((max_chislo - min_chislo + 1) / 2)
-    while number != predict:
-        count += 1
-        if number > predict:
-            min_chislo = predict
-            predict = ceil((max_chislo - min_chislo + 1) / 2)
-        elif number < predict:
-            max_chislo = predict
-            predict = ceil((max_chislo - min_chislo + 1) / 2)
-    return(count) # выход из цикла, если угадали
+def game_core_v3(number):
+    """В интервале возможных загаданных чисел функция проверяет число посередине. В зависимости от результата (< или >
+    загаданного числа) меняем нижнюю или верхнюю границу предполагаемого интервала и уже в нём проверяем число
+    посередине. При совпадении с загаданным числом функция выводит число попыток, за которое смогла вычислить число"""
+    global max_number
+    count = 1  # счетчик попыток
+    min_number = 1  # какое минимальное число мог загадать компьютер
+    predict = ceil((max_number + 1 - min_number) / 2)  # предпологаемое число
+    while predict != number:
+        if predict > number:
+            count += 1
+            max_number = predict
+            predict = ceil((max_number - min_number) / 2) + min_number
+        else:
+            count += 1
+            min_number = predict
+            predict = ceil((max_number - min_number) / 2) + min_number
+    return count
 
 
 def score_game(game_core):
@@ -51,4 +37,6 @@ def score_game(game_core):
     print(f"Ваш алгоритм угадывает число в среднем за {score} попыток")
     return(score)
 
-game_core_v3(number)"""
+game_core_v3(number)
+
+print(f'Загадано число {number}')
